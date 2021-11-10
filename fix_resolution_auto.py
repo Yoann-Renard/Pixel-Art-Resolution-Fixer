@@ -3,7 +3,12 @@ import os
 import sys
 path = input("""Path of the image/folder
 >> """)
-img = Image.open(path)
+try:
+    img = Image.open(path)
+    imgpx = img.load()
+except Exception as e:
+    input(e)
+    exit(1)
 imgpx = img.load()
 
 pixel_width = 0

@@ -5,9 +5,12 @@ import turtle
 
 path = input("""Path of the image/folder
 >> """)
-img = Image.open(path)
-imgpx = img.load()
-
+try:
+    img = Image.open(path)
+    imgpx = img.load()
+except Exception as e:
+    input(e)
+    exit(1)
 pixel_width = 0
 """TURTLE"""
 tr = turtle.Turtle()
