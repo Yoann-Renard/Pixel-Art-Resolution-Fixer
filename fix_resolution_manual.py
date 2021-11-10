@@ -1,9 +1,11 @@
 from PIL import Image
 import os, sys
 
-img = Image.open(r"img/char_sample/royal.png")
+path = input("""Path of the image/folder
+>> """)
+img = Image.open(path)
 imgpx = img.load()
-pixel_width = int(input("""Nombre de pixel réel pour un pixel ?
+pixel_width = int(input("""Number of true pixel per pixel to remove ?
 >> """))
 
 os.system('cls')
@@ -29,5 +31,5 @@ for x in range(fixed_img.width):
         yi += pixel_width
     xi += pixel_width
 
-fixed_img.save("test.png")
+fixed_img.save("output.png")
 sys.exit(0)

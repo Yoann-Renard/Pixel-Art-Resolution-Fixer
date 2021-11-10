@@ -3,7 +3,8 @@ import os
 import sys
 import turtle
 
-path = r"img/char_sample/flower.png"
+path = input("""Path of the image/folder
+>> """)
 img = Image.open(path)
 imgpx = img.load()
 
@@ -128,7 +129,7 @@ print(square_list)
 pixel_width = most_frequent(square_list)
 
 if pixel_width == 0:
-    print("The image is already at the right resolution")
+    print("The image have already the right resolution")
     exit(0)
 
 
@@ -155,6 +156,6 @@ for x in range(fixed_img.width):
         yi += pixel_width
     xi += pixel_width
 
-fixed_img.save("test.png")
+fixed_img.save("output.png")
 screen.mainloop()
 sys.exit(0)

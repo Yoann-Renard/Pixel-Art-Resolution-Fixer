@@ -1,7 +1,8 @@
 from PIL import Image
 import os
 import sys
-path = r"img/char_sample/flower.png"
+path = input("""Path of the image/folder
+>> """)
 img = Image.open(path)
 imgpx = img.load()
 
@@ -73,12 +74,6 @@ if pixel_width == 0:
     exit(0)
 
 
-
-
-
-
-
-
 ''''''
 
 new_width, new_height = img.size
@@ -102,5 +97,5 @@ for x in range(fixed_img.width):
         yi += pixel_width
     xi += pixel_width
 
-fixed_img.save("test.png")
+fixed_img.save("output.png")
 sys.exit(0)
