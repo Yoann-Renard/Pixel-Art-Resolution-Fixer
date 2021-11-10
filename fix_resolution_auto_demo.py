@@ -128,7 +128,7 @@ def most_frequent(List):
 print(square_list)
 pixel_width = most_frequent(square_list)
 
-if pixel_width == 0:
+if pixel_width-1 == 0:
     print("The image have already the right resolution")
     exit(0)
 
