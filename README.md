@@ -3,4 +3,4 @@
  
 Demo made with turtle (slow).
 
-Image by ***@Turtleye_***
+Images from ***@Turtleye_***
