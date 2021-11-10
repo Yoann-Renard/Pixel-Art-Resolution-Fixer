@@ -1,0 +1,106 @@
+from PIL import Image
+import os
+import sys
+path = r"img/char_sample/flower.png"
+img = Image.open(path)
+imgpx = img.load()
+
+pixel_width = 0
+''''''
+
+square_list = []
+for y in range(img.height):
+    for x in range(img.width):
+        cy=y
+        cx=x
+        ly1=0
+        lx1=0
+        ly2=0
+        lx2=0
+
+        while cy + 1 < img.height and img.getpixel((cx, cy)) == img.getpixel((cx, cy + 1)):
+            cy += 1
+            ly1 += 1
+
+        while cx + 1 < img.width and img.getpixel((cx, cy)) == img.getpixel((cx + 1, cy)):
+            cx += 1
+            lx1 += 1
+        else:
+            if lx1 == ly1:
+                pass
+            else:
+                continue
+
+        while cy - 1 >= 0 and img.getpixel((cx, cy)) == img.getpixel((cx, cy - 1)):
+            cy -= 1
+            ly2 += 1
+        else:
+            if ly2 == ly1:
+                pass
+            else:
+                continue
+
+        while cx - 1 >= 0 and img.getpixel((cx, cy)) == img.getpixel((cx - 1, cy)):
+            cx -= 1
+            lx2 += 1
+        else:
+            if lx2 == ly1:
+                pass
+            else:
+                continue
+        sys.stdout.write(".")
+        square_list.append(ly1+1)
+
+
+def most_frequent(List):
+    counter = 0
+    num = List[0]
+
+    for i in List:
+        curr_frequency = List.count(i)
+        if(curr_frequency > counter):
+            counter = curr_frequency
+            num = i
+
+    return num
+
+
+print(square_list)
+pixel_width = most_frequent(square_list)
+
+if pixel_width == 0:
+    print("The image is already at the right resolution")
+    exit(0)
+
+
+
+
+
+
+
+
+''''''
+
+new_width, new_height = img.size
+if img.width % pixel_width > 0:
+    new_width -= img.width % pixel_width
+if img.height % pixel_width > 0:
+    new_height -= img.height % pixel_width
+img = img.crop((0, 0, new_width, new_height))
+
+fixed_img = Image.new(
+    mode='RGBA',
+    size=(new_width // pixel_width, new_height // pixel_width)
+)
+fixed_img_px = fixed_img.load()
+
+xi = 0
+for x in range(fixed_img.width):
+    yi = 0
+    for y in range(fixed_img.height):
+        fixed_img_px[x, y] = imgpx[xi, yi]
+        yi += pixel_width
+    xi += pixel_width
+
+fixed_img.save("test.png")
+sys.exit(0)
