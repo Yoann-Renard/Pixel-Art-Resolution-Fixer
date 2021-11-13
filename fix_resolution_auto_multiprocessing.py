@@ -5,19 +5,22 @@ import glob
 from multiprocessing import Process
 
 
-
-def fix_resolution(img, imgpx, filename):
+def fix_resolution(img, filename):
+    imgpx = img.load()
+    process_pid = os.getpid()
     pixel_width = 0
-
     square_list = []
+
+    print(f"Process {process_pid} is running !")
+
     for y in range(img.height):
         for x in range(img.width):
-            cy=y
-            cx=x
-            ly1=0
-            lx1=0
-            ly2=0
-            lx2=0
+            cy = y
+            cx = x
+            ly1 = 0
+            lx1 = 0
+            ly2 = 0
+            lx2 = 0
 
             while cy + 1 < img.height and img.getpixel((cx, cy)) == img.getpixel((cx, cy + 1)):
                 cy += 1
@@ -49,16 +52,13 @@ def fix_resolution(img, imgpx, filename):
                     pass
                 else:
                     continue
-            sys.stdout.write(".")
             square_list.append(ly1+1)
 
-    print(square_list)
     pixel_width = most_frequent(square_list)
 
     if pixel_width-1 == 0:
-        print("The image is already at the right resolution")
+        print(f"{filename} is already at the right resolution")
         exit(0)
-
 
     ''''''
 
@@ -83,8 +83,13 @@ def fix_resolution(img, imgpx, filename):
             yi += pixel_width
         xi += pixel_width
 
-    fixed_img.save(filename)
+    new_file_name = "resized_" + filename
+    fixed_img.save(new_file_name)
 
+    print(f"Process {process_pid} is done !")
+    print(f"{new_file_name} created !")
+
+    exit(0)
 
 
 def most_frequent(List):
@@ -100,12 +105,11 @@ def most_frequent(List):
     return num
 
 
-
 if __name__ == '__main__':
     while True:
-        input = input("""Convert an specific file (1) or every image in this directory (2) ?
+        inp = input("""Convert an specific file (1) or every image in this directory (2) ?
         >> """)
-        if input == "1":
+        if inp == "1":
             path = input("""Path of the image/folder
     >> """)
             try:
@@ -114,16 +118,17 @@ if __name__ == '__main__':
             except Exception as e:
                 input(e)
             else:
-                fix_resolution(img, imgpx, path)
+                fix_resolution(img, path)
 
-        elif input == "2":
-            for filename in glob.glob('[*.png,*.jpg]'):
-                img = Image.open(path)
-                imgpx = img.load()
-                p = Process(target=fix_resolution, args=(img,imgpx,filename))
-            p.join()
-            input("Everything done !")
-            exit(0)
+        elif inp == "2":
+            for filename in glob.glob('*.png'):
+                img = Image.open(filename)
+                p = Process(target=fix_resolution, args=(img, filename))
+                p.start()
+            else:
+                p.join()
+                input("Everything done !")
+                exit(0)
 
         else:
             os.system('cls')
