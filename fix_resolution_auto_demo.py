@@ -48,8 +48,8 @@ tr.fd(50)
 '''AUTO'''
 
 square_list = []
-for y in range(img.height):
-    for x in range(img.width):
+for y in range(round(img.height * 1/4), round(img.height * 3/4)):
+    for x in range(round(img.width * 1/4), round(img.width * 3/4)):
         reset_tr(x, y)
         cy = y
         cx = x

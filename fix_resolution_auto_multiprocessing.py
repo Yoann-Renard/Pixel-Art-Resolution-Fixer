@@ -5,16 +5,10 @@ import glob
 from multiprocessing import Process
 
 
-def fix_resolution(img, filename):
-    imgpx = img.load()
-    process_pid = os.getpid()
-    pixel_width = 0
+def find_square(img) -> list():
     square_list = []
-
-    print(f"Process {process_pid} is running !")
-
-    for y in range(img.height):
-        for x in range(img.width):
+    for y in range(round(img.height * 1/4), round(img.height * 3/4)):
+        for x in range(round(img.width * 1/4), round(img.width * 3/4)):
             cy = y
             cx = x
             ly1 = 0
@@ -53,6 +47,18 @@ def fix_resolution(img, filename):
                 else:
                     continue
             square_list.append(ly1+1)
+            if len(square_list) == 10:
+                return square_list
+    return square_list
+
+def fix_resolution(img, filename):
+    imgpx = img.load()
+    process_pid = os.getpid()
+    pixel_width = 0
+
+    print(f"Process {process_pid} is running !")
+
+    square_list = find_square(img)
 
     pixel_width = most_frequent(square_list)
 
