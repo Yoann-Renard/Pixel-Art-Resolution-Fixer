@@ -127,14 +127,16 @@ if __name__ == '__main__':
                 fix_resolution(img, path)
 
         elif inp == "2":
+            processes = []
             for filename in glob.glob('*.png'):
                 img = Image.open(filename)
                 p = Process(target=fix_resolution, args=(img, filename))
                 p.start()
-            else:
+                processes.append(p)
+            for p in processes:
                 p.join()
+            else:
                 input("Everything done !")
                 exit(0)
-
         else:
             os.system('cls')
