@@ -56,14 +56,14 @@ def fix_resolution(img, filename):
     process_pid = os.getpid()
     pixel_width = 0
 
-    print(f"Process {process_pid} is running !")
+    print(f"Process {process_pid} is running.\n")
 
     square_list = find_square(img)
 
     pixel_width = most_frequent(square_list)
 
     if pixel_width-1 == 0:
-        print(f"{filename} is already at the right resolution")
+        print(f"{filename} is already at the right resolution.\n")
         exit(0)
 
     ''''''
@@ -92,8 +92,8 @@ def fix_resolution(img, filename):
     new_file_name = "resized_" + filename
     fixed_img.save(new_file_name)
 
-    print(f"Process {process_pid} is done !")
-    print(f"{new_file_name} created !")
+    print(f"Process {process_pid} is done.")
+    print(f"{new_file_name} created !\n")
 
     exit(0)
 
@@ -128,7 +128,16 @@ if __name__ == '__main__':
 
         elif inp == "2":
             processes = []
-            for filename in glob.glob('*.png'):
+            ext = str
+            while True:
+                ext = input("Extention des images ?\n\t>> ")
+                if ext not in ['png', 'jpg']:
+                    os.system('cls')
+                    print("Extention not supported.\n")
+                else:
+                    break
+
+            for filename in glob.glob(f'*.{ext}'):
                 img = Image.open(filename)
                 p = Process(target=fix_resolution, args=(img, filename))
                 p.start()
