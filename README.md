@@ -5,4 +5,4 @@ Use multiprocessing to deal with many files in a same directory.
 
 Demo made with turtle (slow).
 
-Images from ***@Turtleye_***
+Images from twitter: ***@Turtleye_***
